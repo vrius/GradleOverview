@@ -1,15 +1,26 @@
+//决定编译目标,com.android.application表示编译成android应用，com.android.library表示编译成依赖库，，，，
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    //编译规范SDK版本（在编译的时候起到代码检查和警告作用，有利于检查一些第三方库，或者代码的兼容性）
+    compileSdkVersion rootProject.compileSdkVersion
+    //编译工具版本(用于规范所有开发人员的编译版本)
+    buildToolsVersion rootProject.buildToolsVersion
+
     defaultConfig {
         applicationId "com.discovery.gradleoverview"
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        //应用支持的最低系统版本
+        minSdkVersion rootProject.minSdkVersion
+        //目标软件开发版本（就是我们应用程序开发过程中所使用的API版本，这个非常重要，关系到后续我们的程序运行行为）
+        targetSdkVersion rootProject.targetSdkVersion
+        //内部版本号，多数用于更新
+        versionCode rootProject.versionCode
+        //外部版本号，用于显示给用户看的
+        versionName rootProject.versionName
+        //用于支持单元测试
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -18,6 +29,7 @@ android {
     }
 }
 
+//依赖库
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
