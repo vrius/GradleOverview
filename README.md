@@ -113,12 +113,14 @@ dependencies {
 ```
 我们看到除了apply plugin之外，build.gradle主要分为android和dependencies，那么我们接下来围绕这两个展开
 
-- dependencies
-dependencies节点是管理我们添加的依赖，分别有如下几种方式添加依赖：
+- dependencies节点是管理我们添加的依赖，分别有如下几种方式添加依赖：
+
 1、implementation files('libs/log4j-core-2.3.jar')
 2、implementation project(':module_common')
 3、implementation 'com.google.code.gson:gson:2.8.5'
 
 其中第一第二种就不说了，添加的使本地依赖，第三种就比较特别了，是在线获取的，其实最后还是引入jar或者使arr，就是上面的gson一样最后同步完成后我们使可以在工程根目录的External Libraries节点下找到相关的jar包的，如下图：
-![](images/gson.png)
+
+![](imges/gson.png)
+
 那么这个jar是在哪来的呢？不知道大家还记不记得我们前面说的project build.gradle文件下有一个allprojects节点，里面的repositories中指定了若干代码仓库的，这个jar就是来自这里的其中一个仓库了。。。
