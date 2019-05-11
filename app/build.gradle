@@ -21,10 +21,43 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    //针对lint检查的配置
+    lintOptions {
+        abortOnError false//即使报错也不会停止打包
+        checkReleaseBuilds false//打包release版本的时候进行检测
+    }
+
+    //签名配置,这个配置记得放在buildTypes前面，否则编译报错
+    signingConfigs {
+        releaseConfigs {
+            //两种不同的apk安全验证
+            v1SigningEnabled true
+            v2SigningEnabled true
+            storeFile file(project.rootDir.absolutePath + File.separator + 'keystore/discovery.jks')
+            storePassword "123456"
+            keyAlias "discovery"
+            keyPassword "123456"
+        }
+        debugConfigs {
+            v1SigningEnabled true
+            v2SigningEnabled true
+            storeFile file(project.rootDir.absolutePath + File.separator + 'keystore/debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
         release {
+            //忽略无用代码
             minifyEnabled false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfigs
+        }
+        debug {
+            signingConfig signingConfigs.debugConfigs
         }
     }
 }
@@ -38,4 +71,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.google.code.gson:gson:2.8.5'
+
 }
