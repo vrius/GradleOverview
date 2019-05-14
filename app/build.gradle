@@ -19,6 +19,9 @@ android {
         versionName rootProject.versionName
         //用于支持单元测试
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //解决All flavors must now belong to a named flavor dimension.错误
+        flavorDimensions "code"
     }
 
     //针对lint检查的配置
@@ -60,6 +63,33 @@ android {
             signingConfig signingConfigs.debugConfigs
         }
     }
+
+    productFlavors {
+        channel_A {
+            manifestPlaceholders = [DISCOVERY_CHANNEL_VALUE: "channel-A"]
+        }
+        channel_B {
+            manifestPlaceholders = [DISCOVERY_CHANNEL_VALUE: "channel-B"]
+        }
+        channel_C {
+            manifestPlaceholders = [DISCOVERY_CHANNEL_VALUE: "channel-C"]
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            // 自定义输出路径
+            variant.getPackageApplication().outputDirectory =
+                    new File(project.rootDir.absolutePath + File.separator + "outputs")
+            // 自定义文件名{示例：AppName-channel-A-debug-v1.0.0_201807301409.apk
+            outputFileName = PROJECT_NAME+"-${variant.productFlavors[0].name}-${variant.buildType.name}-v${variant.versionName}_${Time()}.apk"
+        }
+    }
+
+}
+
+static def Time() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
 }
 
 //依赖库

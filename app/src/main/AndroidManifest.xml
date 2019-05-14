@@ -18,4 +18,12 @@
         </activity>
     </application>
 
+
+
+    <meta-data
+        android:name="DISCOVERY_CHANNEL"
+        android:value="${DISCOVERY_CHANNEL_VALUE}">
+    </meta-data>
+
+
 </manifest>
